@@ -1,18 +1,19 @@
-# Module 3: Physics-Informed Neural Networks (PINNs) & SciML
+# Module 3: Physics-Informed Collocation & SciML (Pure NumPy)
 
-This module implements a **Physics-Informed Neural Network (PINN)** in PyTorch that solves a second-order ordinary differential equation without labeled trajectory data inside the domain, relying solely on the initial condition at $t=0$ and automatic differentiation (`torch.autograd`).
+This module implements a neural network and collocation solver from scratch using **pure NumPy**, bypassing heavy framework dependencies while maintaining rigorous mathematical modeling for second-order ordinary differential equations.
 
 ## 1. Governing Differential Equation
 
 $$\frac{d^2 u}{dt^2} + 2\zeta\omega_0\frac{du}{dt} + \omega_0^2 u = 0, \quad u(0)=1, \quad \dot{u}(0)=0$$
 
-## 2. Physics-Informed Loss Function
+## 2. Collocation & Architecture
 
-$$\mathcal{L}_{\text{total}} = w_{\text{IC}} \left( |u_\theta(0) - 1|^2 + |\dot{u}_\theta(0)|^2 \right) + \frac{1}{N}\sum_{i=1}^{N} \left| \ddot{u}_\theta(t_i) + 2\zeta\omega_0\dot{u}_\theta(t_i) + \omega_0^2 u_\theta(t_i) \right|^2$$
+- **Network Structure:** Multi-layer perceptron (MLP) with `tanh` activations built using raw matrix multiplications (`np.dot`).
+- **Verification:** Evaluated against the exact analytical underdamped oscillator solution across domain $t \in [0, 3]$.
 
 ## 3. Results
 
-![PINN vs Exact ODE Solution](pinn_solution.png)
+![NumPy Collocation ODE Solution](pinn_solution.png)
 
 ```bash
 python pinn_ode_solver.py
